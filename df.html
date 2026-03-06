@@ -1,0 +1,509 @@
+print('''<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Hybrid Smart Energy System</title>
+
+<style>
+
+/* GLOBAL */
+
+body{
+margin:0;
+font-family:Segoe UI;
+background:#0f172a;
+color:white;
+scroll-behavior:smooth;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 30px;
+background:rgba(0,0,0,0.6);
+position:sticky;
+top:0;
+z-index:100;
+}
+
+nav h2{
+color:#00eaff;
+}
+
+nav ul{
+list-style:none;
+display:flex;
+gap:20px;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* SECTIONS */
+
+section{
+display:none;
+padding:60px 40px;
+min-height:100vh;
+}
+
+.active{
+display:block;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding-top:120px;
+background-image:url("https://images.unsplash.com/photo-1509395176047-4a66953fd231");
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:50px;
+color:#00eaff;
+}
+
+.hero p{
+font-size:20px;
+}
+
+button{
+padding:14px 28px;
+background:#00eaff;
+border:none;
+border-radius:6px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-top:30px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+
+.progress{
+height:25px;
+background:#333;
+border-radius:20px;
+}
+
+#chargeBar{
+height:100%;
+width:0%;
+background:#00ff84;
+border-radius:20px;
+}
+
+/* COMPONENT CARDS */
+
+.components{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.components img{
+width:100%;
+border-radius:10px;
+height:180px;
+object-fit:cover;
+}
+
+/* GALLERY */
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.gallery img{
+width:100%;
+border-radius:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:32px;
+}
+
+}
+
+#threejs-container {
+    width: 100%;
+    height: 500px; /* Adjust height as needed */
+    background-color: #000;
+    margin-top: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#threejs-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#analysis-messages {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 25px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+#analysis-messages h3 {
+    color: #00eaff;
+    margin-bottom: 10px;
+}
+
+#analysisMessage {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+</style>
+<script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.150.1/three.module.min.js"></script>
+</head>
+
+<body>
+
+<nav>
+
+<h2>⚡ Smart Energy</h2>
+
+<ul>
+
+<li><a onclick="showPage('home')">Home</a></li>
+
+<li><a onclick="showPage('monitor')">Monitoring</a></li>
+
+<li><a onclick="showPage('components')">Components</a></li>
+
+<li><a onclick="showPage('gallery')">Gallery</a></li>
+
+<li><a onclick="showPage('conclusion')">Conclusion</a></li>
+
+</ul>
+
+</nav>
+
+<!-- HOME -->
+
+<section id="home" class="active hero">
+
+<h1>Hybrid Solar Biomass Energy System</h1>
+
+<p>Smart Sustainable Energy with AI Monitoring</p>
+
+<br>
+
+<button onclick="showPage('monitor')">View Live Monitoring</button>
+
+</section>
+
+<!-- MONITORING -->
+
+<section id="monitor">
+
+<h1>Live Energy Monitoring Dashboard</h1>
+
+<div class="dashboard">
+
+<div class="card">
+
+<h3>Device Name</h3>
+
+<p>Hybrid Solar Biomass Charger</p>
+
+</div>
+
+<div class="card">
+
+<h3>Charging Level</h3>
+
+<div class="progress">
+
+<div id="chargeBar"></div>
+
+</div>
+
+<p id="chargeText">0%</p>
+
+</div>
+
+<div class="card">
+
+<h3>Temperature</h3>
+
+<p id="temperature">0 °C</p>
+
+</div>
+
+<div class="card">
+
+<h3>System Time</h3>
+
+<p id="time"></p>
+
+</div>
+
+</div>
+
+<!-- 3D Canvas Container -->
+<div id="threejs-container"></div>
+
+<!-- New Real-time Analysis Text Container -->
+<div id="analysis-messages">
+    <h3>Real-time Analysis</h3>
+    <p id="analysisMessage"></p>
+</div>
+
+</section>
+
+<!-- COMPONENTS -->
+
+<section id="components">
+
+<h1>Hardware Components</h1>
+
+<div class="components">
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231">
+
+<h3>Solar Panel</h3>
+
+<p>Generates renewable electricity from sunlight.</p>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1581091870627-3a5de8b0f5e1">
+
+<h3>Thermoelectric Generator</h3>
+
+<p>Converts heat from biomass into electricity.</p>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d">
+
+<h3>Biomass Furnace</h3>
+
+<p>Uses organic waste to generate thermal energy.</p>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837">
+
+<h3>Battery Storage</h3>
+
+<p>Stores generated electricity for charging devices.</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- GALLERY -->
+
+<section id="gallery">
+
+<h1>Project Gallery</h1>
+
+<div class="gallery">
+
+<img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7">
+
+<img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231">
+
+<img src="https://images.unsplash.com/photo-1497436072909-f5e4be6b3f8c">
+
+<img src="https://images.unsplash.com/photo-1581091870627-3a5de8b0f5e1">
+
+</div>
+
+</section>
+
+<!-- CONCLUSION -->
+
+<section id="conclusion">
+
+<h1>Conclusion</h1>
+
+<p>
+This dashboard successfully integrates a 3D animated visualization with real-time text analysis to provide a comprehensive overview of the Hybrid Smart Energy System's status. The animated energy core visually represents charge and temperature data through changes in scale, color, rotation speed, and emissive properties. Complementing this, the real-time analysis messages offer clear, descriptive insights into critical system parameters.
+</p>
+<p>
+This combination enhances user understanding and allows for quick assessment of the system's operational efficiency and potential issues. For example, a shrinking red core with a 'Temperature Warning!' message immediately alerts operators to overheating, while a growing green core with 'Charge Level Optimal.' indicates stable performance.
+</p>
+
+</section>
+
+<script>
+
+/* PAGE SWITCH */
+
+function showPage(page){
+
+let pages=document.querySelectorAll("section");
+
+pages.forEach(p=>p.classList.remove("active"));
+
+document.getElementById(page).classList.add("active");
+
+}
+
+/* REAL TIME DATA */
+
+let charge=0;
+
+setInterval(function(){
+
+if(charge<100){
+
+charge+=3;
+
+}else{
+
+charge=0;
+
+}
+
+document.getElementById("chargeBar").style.width=charge+"%";
+
+document.getElementById("chargeText").innerText=charge+"%";
+
+let temp=150+Math.floor(Math.random()*30);
+
+document.getElementById("temperature").innerText=temp+" °C";
+
+document.getElementById("time").innerText=new Date().toLocaleTimeString();
+
+},1000);
+
+</script>
+
+<script type="module">
+    import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/0.150.1/three.module.min.js';
+    const container = document.getElementById('threejs-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    // Basic lighting
+    const ambientLight = new THREE.AmbientLight(0x404040); // Soft white light
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5); // White directional light
+    directionalLight.position.set(1, 1, 1).normalize();
+    scene.add(directionalLight);
+
+    camera.position.set(0, 0, 5); // Position the camera
+
+    // Add a basic 3D model (e.g., a sphere) to represent the energy core
+    const geometry = new THREE.SphereGeometry(1, 32, 32); // Radius 1, 32 segments
+    const material = new THREE.MeshPhongMaterial({ color: 0x0077ff, emissive: 0x000000, shininess: 30 }); // Blue color, no initial emissive
+    const energyCore = new THREE.Mesh(geometry, material);
+    scene.add(energyCore);
+
+    // Simulate real-time data and update model properties
+    let simulatedCharge = 50;
+    let simulatedTemperature = 25;
+
+    setInterval(() => {
+        // Simulate data changes
+        simulatedCharge = Math.max(0, Math.min(100, simulatedCharge + (Math.random() - 0.5) * 10)); // Random change between -5 and +5
+        simulatedTemperature = Math.max(0, Math.min(100, simulatedTemperature + (Math.random() - 0.5) * 5)); // Random change between -2.5 and +2.5
+
+        // Update model based on charge (scale and base color)
+        const chargeNormalized = simulatedCharge / 100;
+        energyCore.scale.set(1 + chargeNormalized * 0.5, 1 + chargeNormalized * 0.5, 1 + chargeNormalized * 0.5); // Scale from 1x to 1.5x
+        energyCore.material.color.setRGB(0, chargeNormalized * 0.7 + 0.3, 1 - chargeNormalized * 0.7); // Blend from blue to green with charge
+
+        // Update model based on temperature (emissive color and rotation speed)
+        const tempNormalized = simulatedTemperature / 100;
+        energyCore.material.emissive.setRGB(tempNormalized * 0.8, tempNormalized * 0.2, 0); // Blend from black to orange-red with temperature
+        energyCore.rotation.y += (tempNormalized * 0.05 + 0.005); // Faster rotation with higher temp
+        energyCore.rotation.x += (tempNormalized * 0.02 + 0.002);
+
+        // Generate analysis message
+        let analysisMessage = '';
+        if (simulatedCharge < 20) {
+            analysisMessage += 'Charging Required.';
+        } else if (simulatedCharge > 80) {
+            analysisMessage += 'Charge Level Optimal.';
+        } else {
+            analysisMessage += 'Normal Charge.';
+        }
+
+        if (simulatedTemperature > 70) {
+            analysisMessage += ' - Temperature Warning!';
+        } else if (simulatedTemperature < 30) {
+            analysisMessage += ' - Cool Temperature.';
+        } else {
+            analysisMessage += ' - Normal Temperature.';
+        }
+
+        document.getElementById('analysisMessage').innerText = analysisMessage;
+
+
+    }, 2000); // Update every 2 seconds
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Handle window resizing
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+</script>
+
+</body>
+</html>'''
+)
